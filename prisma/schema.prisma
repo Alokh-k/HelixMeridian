@@ -1,0 +1,39 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum InterviewStatus {
+  IMPORTED
+  INVITED
+  RESUME_UPLOADED
+  PERSONAL_ROUND
+  TECHNICAL_ROUND
+  CODING_ROUND
+  COMPLETED
+  SHORTLISTED
+  REJECTED
+}
+
+model Candidate {
+  id                  String          @id @default(uuid())
+  email               String          @unique
+  fullName            String?
+  phoneNumber         String?
+  status              InterviewStatus @default(IMPORTED)
+  resumeText          String?         
+  techStack           String?         
+  personalTranscript  Json?           
+  technicalTranscript Json?           
+  codingQuestion      Json?           
+  codingSolution      String?         
+  codingPassed        Boolean?        
+  evaluationScore     Int?            
+  evaluationReport    Json?           
+  createdAt           DateTime        @default(now())
+  updatedAt           DateTime        @updatedAt
+}
